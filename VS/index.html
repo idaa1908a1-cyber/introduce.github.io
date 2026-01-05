@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Artist Portfolio | 劉光展作品集</title>
+    <style>
+        /* --- 全域設定 --- */
+        :root {
+            --primary-color: #E17704; /* 主題橘色 */
+            --bg-color: #1a1a1a;      /* 深色背景 */
+            --card-bg: #2d2d2d;       /* 卡片背景 */
+            --text-color: #f0f0f0;    /* 淺色文字 */
+            --text-secondary: #aaaaaa;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            scroll-behavior: smooth; /* 讓滑動更平順 */
+        }
+
+        a { text-decoration: none; color: inherit; }
+
+        /* --- Header & Nav --- */
+        header {
+            background-color: rgba(0, 0, 0, 0.9);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        header p { font-weight: bold; font-size: 1.2rem; color: var(--primary-color); }
+
+        nav ul { display: flex; list-style: none; gap: 20px; }
+        nav a { font-weight: 500; transition: color 0.3s; }
+        nav a:hover { color: var(--primary-color); }
+
+        /* --- Hero Section (主視覺影片區) --- */
+        .hero {
+            height: 80vh; /* 設定高度 */
+            position: relative; /* 為了讓裡面的影片絕對定位 */
+            overflow: hidden; /* 超出範圍的影片藏起來 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* 背景影片的樣式 */
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* 讓影片填滿整個區塊且不變形 */
+            z-index: -1; /* 放在最底層 */
+            opacity: 0.6; /* 稍微透明一點，讓文字比較清楚 */
+        }
+
+        /* 影片上方的文字內容容器 */
+        .hero-content {
+            z-index: 1; /* 放在影片上層 */
+            padding: 20px;
+        }
+
+        .hero h1 { font-size: 3rem; margin-bottom: 1rem; }
+        .hero p { font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+
+        .btn {
+            padding: 10px 30px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: transform 0.2s;
+            display: inline-block;
+        }
+        .btn:hover { transform: scale(1.05); background-color: #ff9124; }
+
+        /* --- Section 共用設定 --- */
+        section { padding: 80px 20px; max-width: 1200px; margin: 0 auto; }
+
+        h2.section-title {
+            text-align: center; font-size: 2.5rem; margin-bottom: 50px;
+            border-bottom: 2px solid var(--primary-color); display: inline-block;
+            padding-bottom: 10px; position: relative; left: 50%; transform: translateX(-50%);
+        }
+
+        /* --- Skills Section (中間技能區) --- */
+        .skills-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(600px, 1fr)); gap: 60px; }
+        .skill-card { background-color: var(--card-bg); border-radius: 10px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: transform 0.3s; }
+        .skill-card:hover { transform: translateY(-20px); }
+        .skill-img { width: 100%; height: 220px; object-fit: cover; background-color: #444; }
+        .skill-info p {font-size: 2rem; /* ★ 新增這一行：設定為 1.2倍大小 */line-height: 1.2;  /* 行高 */}
+        .skill-info { padding: 20px; }  
+        .skill-info h3 { color: var(--primary-color); margin-bottom: 20px; font-size: 3rem; }
+        .skill-info ul { list-style: inside disc; color: var(--text-secondary); padding-left: 1rem;font-size: 1.5rem;line-height: 1.8;margin-top: 10px;}
+
+        /* --- Portfolio Section (下方作品集區) --- */
+        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(600px, 1fr)); gap: 30px; }
+        .portfolio-item { background-color: var(--card-bg); border-radius: 10px; overflow: hidden; }
+        
+        /* 可點擊切換的圖片樣式 */
+        .clickable-media {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            cursor: pointer; /* 滑鼠變手手 */
+            transition: filter 0.3s, transform 0.3s;
+            border-bottom: 3px solid var(--primary-color); /* 加個底線提示可點擊 */
+        }
+        .clickable-media:hover {
+            filter: brightness(1.1); /* 移上去稍微變亮 */
+        }
+
+        .portfolio-info { padding: 20px; text-align: center; }
+        .hint-text { font-size: 0.9rem; color: var(--primary-color); margin-top: 5px; display: block;}
+
+        /* --- Footer --- */
+        footer { text-align: center; padding: 30px; background-color: #111; color: #666; margin-top: 80px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <p>3D Portfolio</p>
+        <nav>
+            <ul>
+                <li><a href="#home">主頁</a></li>
+                <li><a href="#skills">專業技能</a></li>
+                <li><a href="#portfolio">作品展示</a></li>
+            </ul>   
+        </nav>
+    </header> 
+
+    <section id="home" class="hero">
+        <video autoplay muted loop playsinline class="hero-video">
+            <source src="photo/0001-0600.mp4" type="video/mp4">
+        </video>
+        
+        <div class="hero-content">
+            <h1>Hello, 我是 劉光展</h1>
+            <p>專注於 3D 建模、角色動畫與視覺特效。善於使用 Maya 與 Blender 創造生動的虛擬世界。</p>
+            <br>
+            <a href="#portfolio" class="btn">觀看我的作品</a>
+        </div>
+    </section>
+
+    <section id="skills">
+        <h2 class="section-title">專業技能 & 軟體</h2>
+        
+        <div class="skills-container">
+            <div class="skill-card">
+                <img src="photo/Gemini_Generated_Image_bmpscxbmpscxbmps.png" alt="3D Software Skills" class="skill-img">
+                <div class="skill-info">
+                    <h3>3D 建模與動畫</h3>
+                    <p>主要創作工具，負責場景搭建與角色動態。</p>
+                    <br>
+                    <ul>
+                        <li>Autodesk Maya</li>
+                        <li>Blender</li>
+                        <li>Spine (2D Animation)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="skill-card">
+                 <img src="photo/Gemini_Generated_Image_2773ui2773ui2773 (1).png" alt="Adobe Suite Skills" class="skill-img">
+                <div class="skill-info">
+                    <h3>後製與平面設計</h3>
+                    <p>用於貼圖繪製、影片剪輯與後期合成。</p>
+                    <br>
+                    <ul>
+                        <li>Adobe Photoshop</li>
+                        <li>Adobe Illustrator</li>
+                        <li>After Effects</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="portfolio">
+        <h2 class="section-title">近期專案展示 (點圖互動)</h2>
+        
+        <div class="portfolio-grid">
+            
+            <div class="portfolio-item">
+                <img id="p1" 
+                     src="photo/room.png" 
+                     onclick="toggleMedia('p1', 'photo/room.png', 'photo/room1.png')"
+                     class="clickable-media" 
+                     alt="卡通廚房">
+                
+                <div class="portfolio-info">
+                    <h3>卡通廚房場景</h3>
+                    <p>工具：Maya / Blender</p>
+                    <span class="hint-text">(點擊圖片查看動態/線稿)</span>
+                </div>
+            </div>
+
+            <div class="portfolio-item">
+                <img id="p2" 
+                     src="photo/drogen.jpg" 
+                     onclick="toggleMedia('p2', 'photo/drogen.jpg', 'photo/monster.png')"
+                     class="clickable-media" 
+                     alt="角色建模">
+                <div class="portfolio-info">
+                    <h3>角色建模</h3>
+                    <p>工具：Maya / Blender</p>
+                    <span class="hint-text">(點擊圖片查看展示)</span>
+                </div>
+            </div>
+
+            <div class="portfolio-item">
+                <img id="p3" 
+                     src="photo/slm.gif" 
+                     onclick="toggleMedia('p3', 'photo/123.gif', 'photo/slm.gif')"
+                     class="clickable-media" 
+                     alt="2D動畫">
+                <div class="portfolio-info">
+                    <h3>近期專案：Spine 動畫</h3>
+                    <p>工具：Spine 2D</p>
+                    <span class="hint-text">(點擊切換另一個動畫)</span>
+                </div>
+            </div>
+            
+            <div class="portfolio-item">
+        <img id="p4" 
+             src="photo/PSphoto.png" 
+             onclick="toggleMedia('p4', 'photo/PSphoto.png', 'photo/moon.jpg')"
+             class="clickable-media" 
+             alt="新作品展示">
+        <div class="portfolio-info">
+            <h3>更多作品展示</h3>
+            <p>工具：Photoshop、Illustrator </p>
+            <span class="hint-text">(點擊切換圖片)</span>
+        </div>
+    </div>
+
+    <div class="portfolio-item">
+        <video id="p5" 
+               class="clickable-media" 
+               autoplay muted loop playsinline
+               onclick="toggleMedia('p5', 'photo/41132239.mp4', 'photo/smoke.mp4')">
+            <source src="photo/smoke.mp4" type="video/mp4">
+        </video>
+        
+        <div class="portfolio-info">
+            <h3>特效動畫展示</h3>
+            <p>工具：After Effects</p>
+            <span class="hint-text">(點擊切換影片)</span>
+        </div>
+    </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 劉光展. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        function toggleMedia(elementId, newSrc, originalSrc) {
+             var element = document.getElementById(elementId);
+        
+             // 切換路徑邏輯
+            if (element.src.includes(originalSrc)) {
+            element.src = newSrc;
+            } else {
+            element.src = originalSrc;
+        }
+
+        // ★ 關鍵修正：如果是影片，必須告訴瀏覽器「重新載入並播放」
+        if (element.tagName === 'VIDEO') {
+            element.load(); 
+            element.play(); 
+        }
+    }
+</script>
+
+</body>
+</html>
