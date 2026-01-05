@@ -277,38 +277,28 @@
     </footer>
 
     <script>
+    // 這是一個「無限輪播」的函數
+    // 用法：cycleMedia('ID', '圖1', '圖2', '圖3', ...)
     function cycleMedia(elementId, ...images) {
         var element = document.getElementById(elementId);
         
-        // 1. 先讀取我們有沒有記過「現在是第幾張」
-        var currentIndex = parseInt(element.dataset.cycleIndex);
-
-        // 2. 如果是第一次點擊 (還沒有紀錄)，我們用程式去「猜」現在是哪一張
-        if (isNaN(currentIndex)) {
-            // 預設是 -1 (找不到)
-            currentIndex = -1;
-            // 掃描清單，看現在的 src 到底是哪一張圖
-            for (var i = 0; i < images.length; i++) {
-                // 用 indexOf 比對檔名 (比較寬鬆，不用怕網址太長)
-                if (element.src.indexOf(images[i]) !== -1) {
-                    currentIndex = i;
-                    break;
-                }
+        // 1. 找出現在顯示的是第幾張圖
+        var currentIndex = -1;
+        for (var i = 0; i < images.length; i++) {
+            // 檢查現在的 src 網址裡面有沒有包含清單裡的檔名
+            if (element.src.includes(images[i])) {
+                currentIndex = i;
+                break;
             }
-            // 如果真的找不到，就從第 0 張開始
-            if (currentIndex === -1) currentIndex = 0;
         }
 
-        // 3. 算出下一張 (目前位置 + 1)
+        // 2. 算出下一張圖是誰 (如果最後一張了，就回到第 0 張)
         var nextIndex = (currentIndex + 1) % images.length;
         
-        // 4. 執行切換
+        // 3. 切換圖片
         element.src = images[nextIndex];
 
-        // 5. 記住新的位置
-        element.dataset.cycleIndex = nextIndex;
-
-        // 6. 影片自動播放修正
+        // 4. (選用) 如果是影片，切換後要讓它自動播放
         if (element.tagName === 'VIDEO') {
             element.load();
             element.play();
@@ -317,4 +307,5 @@
 </script>
 
 </body>
+
 </html>
