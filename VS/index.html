@@ -198,27 +198,29 @@
             
             <div class="portfolio-item">
                 <img id="p1" 
-                     src="photo/room.png" 
-                     onclick="toggleMedia('p1', 'photo/room.png', 'photo/room1.png')"
+                     src="photo/0.png" 
+                     onclick="cycleMedia('p1', 'photo/0.png', 'photo/room1.png', 'photo/room2.png', 'photo/room3.png')"
                      class="clickable-media" 
                      alt="卡通廚房">
                 
                 <div class="portfolio-info">
-                    <h3>卡通廚房場景</h3>
-                    <p>工具：Maya / Blender</p>
+                    <h3>卡通廚房場景 </h3>
+                    <h4>工具：Maya / Blender</h4>
+                    <p>作品說明:在前面2~6個用使用了maya來製作，但是突然覺得blender更方便，雖然我也是最近才碰blender所以全部都要重新練，但在學習新的軟體時會蠻開心也有成就感。</p>
                     <span class="hint-text">(點擊圖片查看動態/線稿)</span>
                 </div>
             </div>
 
             <div class="portfolio-item">
                 <img id="p2" 
-                     src="photo/drogen.jpg" 
-                     onclick="toggleMedia('p2', 'photo/drogen.jpg', 'photo/monster.png')"
+                     src="photo/charizard_p.jpg" 
+                     onclick="cycleMedia('p2', 'photo/charizard_p.jpg','photo/drogen.jpg', 'photo/chef-03.jpg')"
                      class="clickable-media" 
                      alt="角色建模">
                 <div class="portfolio-info">
                     <h3>角色建模</h3>
-                    <p>工具：Maya / Blender</p>
+                    <h4>工具：Maya / Blender</h4>
+                    <p>作品說明:在角色建模噴火龍是我使用了1整天的時間把它給做出來的，原本噴火龍是會像圖那樣，但是那時還不太了解Maya所以就變成圖二那樣了，然後廚師的話是使用了AI來幫助我製作角色。</p>
                     <span class="hint-text">(點擊圖片查看展示)</span>
                 </div>
             </div>
@@ -226,12 +228,13 @@
             <div class="portfolio-item">
                 <img id="p3" 
                      src="photo/slm.gif" 
-                     onclick="toggleMedia('p3', 'photo/line.gif', 'photo/slm.gif')"
+                     onclick="cycleMedia('p3', 'photo/line.gif', 'photo/slm.gif')"
                      class="clickable-media" 
                      alt="2D動畫">
                 <div class="portfolio-info">
                     <h3>近期專案：Spine 動畫</h3>
-                    <p>工具：Spine 2D</p>
+                    <h4>工具：Spine 2D</h4>
+                    <p>作品說明:這個的話是這個學期製作的作品，主要是使用spine來製作2D動畫，然後再把它匯出成gif檔案，但是我覺得這個應該比較適用於2D的遊戲製作。</p>
                     <span class="hint-text">(點擊切換另一個動畫)</span>
                 </div>
             </div>
@@ -239,12 +242,13 @@
             <div class="portfolio-item">
         <img id="p4" 
              src="photo/PSphoto.png" 
-             onclick="toggleMedia('p4', 'photo/PSphoto.png', 'photo/moon.jpg')"
+             onclick="cycleMedia('p4', 'photo/PSphoto.png', 'photo/moon.jpg')"
              class="clickable-media" 
              alt="新作品展示">
         <div class="portfolio-info">
             <h3>更多作品展示</h3>
-            <p>工具：Photoshop、Illustrator </p>
+            <h4>工具：Photoshop、Illustrator </h4>
+            <p>作品說明：這些是我在平面設計方面的作品，使用了漸層工具和使用許多圖片做組合讓這些圖片比較好看。</p>
             <span class="hint-text">(點擊切換圖片)</span>
         </div>
     </div>
@@ -253,13 +257,14 @@
         <video id="p5" 
                class="clickable-media" 
                autoplay muted loop playsinline
-               onclick="toggleMedia('p5', 'photo/41132239.mp4', 'photo/smoke.mp4')">
+               onclick="cycleMedia('p5', 'photo/41132239.mp4', 'photo/smoke.mp4')">
             <source src="photo/smoke.mp4" type="video/mp4">
         </video>
         
         <div class="portfolio-info">
             <h3>特效動畫展示</h3>
-            <p>工具：After Effects</p>
+            <h4>工具：After Effects</h4>
+            <p>作品說明:這是我使用After Effects製作的特效動畫，這兩個都是使用粒子效果做出來的，第一個是項是在一個詭異的街邊突然飄出一團霧令人毛骨悚然，第二的話是那時剛好聖誕節就直接做一個粒子聖誕樹。</p>
             <span class="hint-text">(點擊切換影片)</span>
         </div>
     </div>
@@ -272,23 +277,41 @@
     </footer>
 
     <script>
-        function toggleMedia(elementId, newSrc, originalSrc) {
-             var element = document.getElementById(elementId);
-        
-             // 切換路徑邏輯
-            if (element.src.includes(originalSrc)) {
-            element.src = newSrc;
-            } else {
-            element.src = originalSrc;
-        }
+        // 這是一個「無限輪播」的函數
+        // 可以支援無限多張圖
+        function cycleMedia(elementId, ...images) {
+            var element = document.getElementById(elementId);
+            
+            // 1. 找出現在顯示的是第幾張圖
+            var currentIndex = -1;
+            
+            // 用迴圈去比對現在的網址包含哪一張圖的檔名
+            for (var i = 0; i < images.length; i++) {
+                // decodeURIComponent 是為了避免中文檔名亂碼導致比對失敗
+                if (element.src.includes(encodeURI(images[i])) || element.src.includes(images[i])) {
+                    currentIndex = i;
+                    break;
+                }
+            }
 
-        // ★ 關鍵修正：如果是影片，必須告訴瀏覽器「重新載入並播放」
-        if (element.tagName === 'VIDEO') {
-            element.load(); 
-            element.play(); 
+            // 2. 如果找不到(可能是編碼問題)，就強迫從第一張開始
+            if (currentIndex === -1) {
+                currentIndex = 0;
+            }
+
+            // 3. 算出下一張圖是誰 (除以總數取餘數，讓他可以繞圈圈)
+            var nextIndex = (currentIndex + 1) % images.length;
+            
+            // 4. 切換圖片
+            element.src = images[nextIndex];
+
+            // 5. 如果是影片，切換後要讓它自動播放
+            if (element.tagName === 'VIDEO') {
+                element.load();
+                element.play();
+            }
         }
-    }
-</script>
+    </script>
 
 </body>
 </html>
