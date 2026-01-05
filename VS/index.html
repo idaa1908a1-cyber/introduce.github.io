@@ -277,41 +277,31 @@
     </footer>
 
     <script>
-        // 這是一個「無限輪播」的函數
-        // 可以支援無限多張圖
-        function cycleMedia(elementId, ...images) {
-            var element = document.getElementById(elementId);
-            
-            // 1. 找出現在顯示的是第幾張圖
-            var currentIndex = -1;
-            
-            // 用迴圈去比對現在的網址包含哪一張圖的檔名
-            for (var i = 0; i < images.length; i++) {
-                // decodeURIComponent 是為了避免中文檔名亂碼導致比對失敗
-                if (element.src.includes(encodeURI(images[i])) || element.src.includes(images[i])) {
-                    currentIndex = i;
-                    break;
-                }
-            }
+    // 這是改良版：直接用數字記住現在是第幾張，不再怕網址判斷錯誤
+    function cycleMedia(elementId, ...images) {
+        var element = document.getElementById(elementId);
+        
+        // 1. 讀取目前是第幾張 (如果還沒記過，預設就是 0)
+        // 我們利用 HTML 的 dataset 功能，把數字暫存在標籤裡
+        var currentIndex = parseInt(element.dataset.cycleIndex || 0);
 
-            // 2. 如果找不到(可能是編碼問題)，就強迫從第一張開始
-            if (currentIndex === -1) {
-                currentIndex = 0;
-            }
+        // 2. 算出下一張是第幾張 (除以總張數取餘數，實現無限輪播)
+        var nextIndex = (currentIndex + 1) % images.length;
+        
+        // 3. 切換圖片
+        element.src = images[nextIndex];
 
-            // 3. 算出下一張圖是誰 (除以總數取餘數，讓他可以繞圈圈)
-            var nextIndex = (currentIndex + 1) % images.length;
-            
-            // 4. 切換圖片
-            element.src = images[nextIndex];
+        // 4. 更新記錄 (把新的號碼記回去)
+        element.dataset.cycleIndex = nextIndex;
 
-            // 5. 如果是影片，切換後要讓它自動播放
-            if (element.tagName === 'VIDEO') {
-                element.load();
-                element.play();
-            }
+        // 5. 如果是影片，切換後要讓它自動播放
+        if (element.tagName === 'VIDEO') {
+            element.load();
+            element.play();
         }
-    </script>
+    }
+</script>
 
 </body>
+
 </html>
