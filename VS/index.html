@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>阿藏披薩 Ah Zang's Pizza | 3D 動畫專題</title>
     <style>
-        /* 網站色彩與基本設定 */
+        /* --- 網站色彩與基本設定 --- */
         :root {
             --primary-color: #E24A3A; /* 烤爐番茄紅 */
             --secondary-color: #F8B42A; /* 起司溫暖黃 */
@@ -22,7 +22,7 @@
             line-height: 1.6;
         }
 
-        /* 導覽列 */
+        /* --- 導覽列 --- */
         nav {
             background-color: var(--primary-color);
             padding: 15px 0;
@@ -47,30 +47,61 @@
             color: var(--secondary-color);
         }
 
-        /* 首頁主視覺區塊 (Hero Section) */
+        /* --- 更新後的主視覺區塊 (Hero Section) 樣式 --- */
         header {
+            position: relative;
             height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            background: linear-gradient(rgba(226, 74, 58, 0.8), rgba(248, 180, 42, 0.8)), url('https://via.placeholder.com/1920x1080?text=將這裡替換成您最美的阿藏主視覺劇照') center/cover;
             color: white;
+            overflow: hidden; /* 隱藏超出邊界的影片 */
+        }
+
+        /* 影片滿版設定 */
+        .bg-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translateX(-50%) translateY(-50%);
+            z-index: -2; /* 放到最底層 */
+            object-fit: cover; /* 確保影片比例正確並填滿畫面 */
+        }
+
+        /* 半透明黑色遮罩 */
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4); /* 0.4 是透明度，可以自己調深淺 */
+            z-index: -1;
+        }
+
+        /* 文字內容層 */
+        .hero-content {
+            z-index: 1; /* 確保文字浮在影片和遮罩之上 */
             padding-top: 60px;
         }
 
-        header h1 {
+        .hero-content h1 {
             font-size: 4rem;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
         }
 
-        header p {
+        .hero-content p {
             font-size: 1.5rem;
             max-width: 600px;
             margin-bottom: 30px;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
         }
 
         .btn {
@@ -82,6 +113,7 @@
             border-radius: 30px;
             font-size: 1.2rem;
             transition: transform 0.2s, background-color 0.2s;
+            display: inline-block;
         }
 
         .btn:hover {
@@ -89,7 +121,7 @@
             background-color: #ffc247;
         }
 
-        /* 內容區塊共用設定 */
+        /* --- 內容區塊共用設定 --- */
         section {
             padding: 80px 20px;
             max-width: 1000px;
@@ -103,7 +135,7 @@
             margin-bottom: 40px;
         }
 
-        /* 故事大綱區塊 */
+        /* --- 故事大綱區塊 --- */
         .story-content {
             background: white;
             padding: 40px;
@@ -112,7 +144,7 @@
             border-left: 8px solid var(--secondary-color);
         }
 
-        /* 作品劇照畫廊 */
+        /* --- 作品劇照畫廊 --- */
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -131,9 +163,11 @@
             overflow: hidden;
             border: 3px solid white;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            background-size: cover;
+            background-position: center;
         }
 
-        /* 幕後製作與技術 */
+        /* --- 幕後製作與技術 --- */
         .tech-tags {
             display: flex;
             justify-content: center;
@@ -150,7 +184,7 @@
             letter-spacing: 1px;
         }
 
-        /* 頁尾 */
+        /* --- 頁尾 --- */
         footer {
             background-color: var(--text-color);
             color: white;
@@ -171,11 +205,23 @@
         <a href="#bts">幕後製作</a>
     </nav>
 
-    <!-- 首頁主視覺 -->
+    <!-- 首頁主視覺 (含影片背景) -->
     <header id="home">
-        <h1>阿藏披薩 Ah Zang's Pizza</h1>
-        <p>一段在義式窯烤爐裡，關於愛、傳承與爆發的溫馨 3D 童話。</p>
-        <a href="#gallery" class="btn">觀看精彩劇照</a>
+        <!-- 這是背景影片區塊 -->
+        <video autoplay loop muted playsinline class="bg-video">
+            <!-- 👇 請把下面引號內的檔名，改成您電腦裡的影片檔名 👇 -->
+            <source src="your-video-file.mp4" type="video/mp4">
+        </video>
+        
+        <!-- 半透明遮罩 -->
+        <div class="hero-overlay"></div>
+
+        <!-- 文字內容層 -->
+        <div class="hero-content">
+            <h1>阿藏披薩</h1>
+            <p>一段在義式窯烤爐裡，關於愛、傳承與爆發的卡通風格動畫專題。</p>
+            <a href="#gallery" class="btn">觀看精彩劇照</a>
+        </div>
     </header>
 
     <!-- 關於故事 -->
@@ -183,7 +229,7 @@
         <h2>About the Story</h2>
         <div class="story-content">
             <p>在充滿義式風情的廚房裡，住著熱愛烘焙的阿藏廚師。而在那口溫暖的窯烤爐深處，正上演著一段不為人知的感人故事。</p>
-            <p>隨著歲月流逝，老火苗逐漸失去了燃燒的力氣。為了讓最美味的披薩得以順利出爐，老火苗決定將自己最後的熱能與魔法，化作點點星火，傳遞給懵懂的小火苗。伴隨著激昂的義大利傳統樂曲，小火苗瞬間覺醒，爆發出藍紅漸層的耀眼光芒，撐起了整個烤爐的熱度！</p>
+            <p>隨著歲月流逝，老火苗逐漸失去了燃燒的力氣。為了讓最美味的披薩得以順利出爐，老火苗決定將自己最後的熱能與魔法，化作點點星火，傳遞給懵懂的小火苗。伴隨著激昂的配樂，小火苗瞬間覺醒，爆發出藍紅漸層的耀眼光芒，撐起了整個烤爐的熱度！</p>
         </div>
     </section>
 
@@ -192,7 +238,7 @@
         <h2>Director's Statement</h2>
         <div class="story-content" style="border-left-color: var(--primary-color);">
             <p><strong>您好，我是本作導演。</strong></p>
-            <p>《阿藏披薩》是我對卡通 3D 美學 (Cartoon 3D / Stylized) 的一次完整實踐。從零開始建構阿藏的造型，到精細調整窯烤爐內火苗的動態與光影，我致力於打破 3D 模型冰冷的生硬感，創造出具有『生活感』的溫馨場景。希望這部專題作品，能像一塊剛出爐的牽絲披薩一樣，溫暖每一位觀眾的心。</p>
+            <p>本專題是我對卡通化 3D 美學的一次完整實踐。從零開始建構阿藏的造型，到精細調整窯烤爐內火苗的動態與光影，我致力於打破 3D 模型冰冷的生硬感，創造出具有『生活感』的溫馨場景。希望這部專題作品，能像一塊剛出爐的牽絲披薩一樣，溫暖每一位觀眾的心。</p>
         </div>
     </section>
 
@@ -200,20 +246,20 @@
     <section id="gallery">
         <h2>Beauty Shots</h2>
         <div class="gallery-grid">
-            <div class="gallery-item">劇照 1: 阿藏廚師特寫 (請替換圖片)</div>
-            <div class="gallery-item">劇照 2: 義式廚房氛圍 (請替換圖片)</div>
-            <div class="gallery-item">劇照 3: 老火苗的犧牲 (請替換圖片)</div>
-            <div class="gallery-item">劇照 4: 小火苗的爆發 (請替換圖片)</div>
+            <!-- 👇 未來您可以透過在 style="background-image: url('圖片網址');" 加入圖片 👇 -->
+            <div class="gallery-item">劇照 1: 阿藏廚師特寫</div>
+            <div class="gallery-item">劇照 2: 義式廚房氛圍</div>
+            <div class="gallery-item">劇照 3: 老火苗的犧牲</div>
+            <div class="gallery-item">劇照 4: 小火苗的爆發</div>
         </div>
     </section>
 
     <!-- 幕後製作 -->
     <section id="bts">
         <h2>Behind the Scenes</h2>
-        <p style="text-align: center; margin-bottom: 30px;">本專題採用標準 3D 動畫製程，結合精緻的材質渲染與逐幀動作調整，打造迪士尼般的視覺饗宴。</p>
+        <p style="text-align: center; margin-bottom: 30px;">本專題結合了精緻的材質渲染與逐幀動作調整，打造出溫馨的視覺饗宴。</p>
         <div class="tech-tags">
-            <span class="tech-tag">Blender 3D</span>
-            <span class="tech-tag">MotionBuilder</span>
+            <span class="tech-tag">Blender</span>
             <span class="tech-tag">Marmoset Toolbag</span>
             <span class="tech-tag">Adobe After Effects</span>
         </div>
@@ -221,7 +267,7 @@
 
     <!-- 頁尾 -->
     <footer>
-        <p>© 2026 Ah Zang's Pizza Animation Project. 畢業專題製作</p>
+        <p>© 2026 阿藏披薩 Animation Project. 畢業專題製作</p>
     </footer>
 
 </body>
