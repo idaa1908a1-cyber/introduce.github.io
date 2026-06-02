@@ -3,309 +3,226 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Artist Portfolio | 劉光展作品集</title>
+    <title>阿藏披薩 Ah Zang's Pizza | 3D 動畫專題</title>
     <style>
-        /* --- 全域設定 --- */
+        /* 網站色彩與基本設定 */
         :root {
-            --primary-color: #E17704; /* 主題橘色 */
-            --bg-color: #1a1a1a;      /* 深色背景 */
-            --card-bg: #2d2d2d;       /* 卡片背景 */
-            --text-color: #f0f0f0;    /* 淺色文字 */
-            --text-secondary: #aaaaaa;
+            --primary-color: #E24A3A; /* 烤爐番茄紅 */
+            --secondary-color: #F8B42A; /* 起司溫暖黃 */
+            --bg-color: #FDF9F1; /* 麵團米白色 */
+            --text-color: #4A3E3D; /* 炭烤深棕色 */
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
         body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'Helvetica Neue', Arial, '微軟正黑體', sans-serif;
+            margin: 0;
+            padding: 0;
             background-color: var(--bg-color);
             color: var(--text-color);
             line-height: 1.6;
-            scroll-behavior: smooth; /* 讓滑動更平順 */
         }
 
-        a { text-decoration: none; color: inherit; }
-
-        /* --- Header & Nav --- */
-        header {
-            background-color: rgba(0, 0, 0, 0.9);
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
+        /* 導覽列 */
+        nav {
+            background-color: var(--primary-color);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
             top: 0;
-            z-index: 100;
-            border-bottom: 2px solid var(--primary-color);
+            z-index: 1000;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
-        header p { font-weight: bold; font-size: 1.2rem; color: var(--primary-color); }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
 
-        nav ul { display: flex; list-style: none; gap: 20px; }
-        nav a { font-weight: 500; transition: color 0.3s; }
-        nav a:hover { color: var(--primary-color); }
+        nav a:hover {
+            color: var(--secondary-color);
+        }
 
-        /* --- Hero Section (主視覺影片區) --- */
-        .hero {
-            height: 80vh; /* 設定高度 */
-            position: relative; /* 為了讓裡面的影片絕對定位 */
-            overflow: hidden; /* 超出範圍的影片藏起來 */
+        /* 首頁主視覺區塊 (Hero Section) */
+        header {
+            height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
+            background: linear-gradient(rgba(226, 74, 58, 0.8), rgba(248, 180, 42, 0.8)), url('https://via.placeholder.com/1920x1080?text=將這裡替換成您最美的阿藏主視覺劇照') center/cover;
+            color: white;
+            padding-top: 60px;
         }
 
-        /* 背景影片的樣式 */
-        .hero-video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* 讓影片填滿整個區塊且不變形 */
-            z-index: -1; /* 放在最底層 */
-            opacity: 0.6; /* 稍微透明一點，讓文字比較清楚 */
+        header h1 {
+            font-size: 4rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
         }
 
-        /* 影片上方的文字內容容器 */
-        .hero-content {
-            z-index: 1; /* 放在影片上層 */
-            padding: 20px;
+        header p {
+            font-size: 1.5rem;
+            max-width: 600px;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
         }
-
-        .hero h1 { font-size: 3rem; margin-bottom: 1rem; }
-        .hero p { font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; }
 
         .btn {
-            padding: 10px 30px;
-            background-color: var(--primary-color);
-            color: white;
-            border-radius: 5px;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            padding: 12px 30px;
+            text-decoration: none;
             font-weight: bold;
-            transition: transform 0.2s;
-            display: inline-block;
-        }
-        .btn:hover { transform: scale(1.05); background-color: #ff9124; }
-
-        /* --- Section 共用設定 --- */
-        section { padding: 80px 20px; max-width: 1200px; margin: 0 auto; }
-
-        h2.section-title {
-            text-align: center; font-size: 2.5rem; margin-bottom: 50px;
-            border-bottom: 2px solid var(--primary-color); display: inline-block;
-            padding-bottom: 10px; position: relative; left: 50%; transform: translateX(-50%);
+            border-radius: 30px;
+            font-size: 1.2rem;
+            transition: transform 0.2s, background-color 0.2s;
         }
 
-        /* --- Skills Section (中間技能區) --- */
-        .skills-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(600px, 1fr)); gap: 60px; }
-        .skill-card { background-color: var(--card-bg); border-radius: 10px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: transform 0.3s; }
-        .skill-card:hover { transform: translateY(-20px); }
-        .skill-img { width: 100%; height: 220px; object-fit: cover; background-color: #444; }
-        .skill-info p {font-size: 2rem; /* ★ 新增這一行：設定為 1.2倍大小 */line-height: 1.2;  /* 行高 */}
-        .skill-info { padding: 20px; }  
-        .skill-info h3 { color: var(--primary-color); margin-bottom: 20px; font-size: 3rem; }
-        .skill-info ul { list-style: inside disc; color: var(--text-secondary); padding-left: 1rem;font-size: 1.5rem;line-height: 1.8;margin-top: 10px;}
-
-        /* --- Portfolio Section (下方作品集區) --- */
-        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(600px, 1fr)); gap: 30px; }
-        .portfolio-item { background-color: var(--card-bg); border-radius: 10px; overflow: hidden; }
-        
-        /* 可點擊切換的圖片樣式 */
-        .clickable-media {
-            width: 100%;
-            height: 500px;
-            object-fit: cover;
-            cursor: pointer; /* 滑鼠變手手 */
-            transition: filter 0.3s, transform 0.3s;
-            border-bottom: 3px solid var(--primary-color); /* 加個底線提示可點擊 */
-        }
-        .clickable-media:hover {
-            filter: brightness(1.1); /* 移上去稍微變亮 */
+        .btn:hover {
+            transform: scale(1.05);
+            background-color: #ffc247;
         }
 
-        .portfolio-info { padding: 20px; text-align: center; }
-        .hint-text { font-size: 0.9rem; color: var(--primary-color); margin-top: 5px; display: block;}
+        /* 內容區塊共用設定 */
+        section {
+            padding: 80px 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
 
-        /* --- Footer --- */
-        footer { text-align: center; padding: 30px; background-color: #111; color: #666; margin-top: 80px; }
+        section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 40px;
+        }
+
+        /* 故事大綱區塊 */
+        .story-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-left: 8px solid var(--secondary-color);
+        }
+
+        /* 作品劇照畫廊 */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item {
+            background-color: #ddd;
+            height: 250px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #777;
+            font-weight: bold;
+            overflow: hidden;
+            border: 3px solid white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        /* 幕後製作與技術 */
+        .tech-tags {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .tech-tag {
+            background-color: var(--text-color);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        /* 頁尾 */
+        footer {
+            background-color: var(--text-color);
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+        }
     </style>
 </head>
 <body>
 
-    <header>
-        <p>3D Portfolio</p>
-        <nav>
-            <ul>
-                <li><a href="#home">主頁</a></li>
-                <li><a href="#skills">專業技能</a></li>
-                <li><a href="#portfolio">作品展示</a></li>
-            </ul>   
-        </nav>
-    </header> 
+    <!-- 導覽列 -->
+    <nav>
+        <a href="#home">首頁</a>
+        <a href="#story">關於故事</a>
+        <a href="#director">導演介紹</a>
+        <a href="#gallery">作品劇照</a>
+        <a href="#bts">幕後製作</a>
+    </nav>
 
-    <section id="home" class="hero">
-        <video autoplay muted loop playsinline class="hero-video">
-            <source src="photo/0001-0600.mp4" type="video/mp4">
-        </video>
-        
-        <div class="hero-content">
-            <h1>Hello, 我是 劉光展</h1>
-            <p>專注於 3D 建模、角色動畫與視覺特效。善於使用 Maya 與 Blender 創造生動的虛擬世界。</p>
-            <br>
-            <a href="#portfolio" class="btn">觀看我的作品</a>
+    <!-- 首頁主視覺 -->
+    <header id="home">
+        <h1>阿藏披薩 Ah Zang's Pizza</h1>
+        <p>一段在義式窯烤爐裡，關於愛、傳承與爆發的溫馨 3D 童話。</p>
+        <a href="#gallery" class="btn">觀看精彩劇照</a>
+    </header>
+
+    <!-- 關於故事 -->
+    <section id="story">
+        <h2>About the Story</h2>
+        <div class="story-content">
+            <p>在充滿義式風情的廚房裡，住著熱愛烘焙的阿藏廚師。而在那口溫暖的窯烤爐深處，正上演著一段不為人知的感人故事。</p>
+            <p>隨著歲月流逝，老火苗逐漸失去了燃燒的力氣。為了讓最美味的披薩得以順利出爐，老火苗決定將自己最後的熱能與魔法，化作點點星火，傳遞給懵懂的小火苗。伴隨著激昂的義大利傳統樂曲，小火苗瞬間覺醒，爆發出藍紅漸層的耀眼光芒，撐起了整個烤爐的熱度！</p>
         </div>
     </section>
 
-    <section id="skills">
-        <h2 class="section-title">專業技能 & 軟體</h2>
-        
-        <div class="skills-container">
-            <div class="skill-card">
-                <img src="photo/Gemini_Generated_Image_bmpscxbmpscxbmps.png" alt="3D Software Skills" class="skill-img">
-                <div class="skill-info">
-                    <h3>3D 建模與動畫</h3>
-                    <p>主要創作工具，負責場景搭建與角色動態。</p>
-                    <br>
-                    <ul>
-                        <li>Autodesk Maya</li>
-                        <li>Blender</li>
-                        <li>Spine (2D Animation)</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="skill-card">
-                 <img src="photo/Gemini_Generated_Image_2773ui2773ui2773 (1).png" alt="Adobe Suite Skills" class="skill-img">
-                <div class="skill-info">
-                    <h3>後製與平面設計</h3>
-                    <p>用於貼圖繪製、影片剪輯與後期合成。</p>
-                    <br>
-                    <ul>
-                        <li>Adobe Photoshop</li>
-                        <li>Adobe Illustrator</li>
-                        <li>After Effects</li>
-                    </ul>
-                </div>
-            </div>
+    <!-- 導演介紹 -->
+    <section id="director">
+        <h2>Director's Statement</h2>
+        <div class="story-content" style="border-left-color: var(--primary-color);">
+            <p><strong>您好，我是本作導演。</strong></p>
+            <p>《阿藏披薩》是我對卡通 3D 美學 (Cartoon 3D / Stylized) 的一次完整實踐。從零開始建構阿藏的造型，到精細調整窯烤爐內火苗的動態與光影，我致力於打破 3D 模型冰冷的生硬感，創造出具有『生活感』的溫馨場景。希望這部專題作品，能像一塊剛出爐的牽絲披薩一樣，溫暖每一位觀眾的心。</p>
         </div>
     </section>
 
-    <section id="portfolio">
-        <h2 class="section-title">近期專案展示 (點圖互動)</h2>
-        
-        <div class="portfolio-grid">
-            
-            <div class="portfolio-item">
-                <img id="p1" 
-                     src="photo/0.png" 
-                     onclick="cycleMedia('p1', 'photo/0.png', 'photo/room1.png', 'photo/room2.png', 'photo/room3.png')"
-                     class="clickable-media" 
-                     alt="卡通廚房">
-                
-                <div class="portfolio-info">
-                    <h3>卡通廚房場景 </h3>
-                    <h4>工具：Maya / Blender</h4>
-                    <p>作品說明:在前面2~6個用使用了maya來製作，但是突然覺得blender更方便，雖然我也是最近才碰blender所以全部都要重新練，但在學習新的軟體時會蠻開心也有成就感。</p>
-                    <span class="hint-text">(點擊圖片查看動態/線稿)</span>
-                </div>
-            </div>
-
-            <div class="portfolio-item">
-                <img id="p2" 
-                     src="photo/charizard_p.jpg" 
-                     onclick="cycleMedia('p2', 'photo/charizard_p.jpg','photo/drogen.jpg', 'photo/chef-03.jpg')"
-                     class="clickable-media" 
-                     alt="角色建模">
-                <div class="portfolio-info">
-                    <h3>角色建模</h3>
-                    <h4>工具：Maya / Blender</h4>
-                    <p>作品說明:在角色建模噴火龍是我使用了1整天的時間把它給做出來的，原本噴火龍是會像圖那樣，但是那時還不太了解Maya所以就變成圖二那樣了，然後廚師的話是使用了AI來幫助我製作角色。</p>
-                    <span class="hint-text">(點擊圖片查看展示)</span>
-                </div>
-            </div>
-
-            <div class="portfolio-item">
-                <img id="p3" 
-                     src="photo/line.gif" 
-                     onclick="cycleMedia('p3', 'photo/line.gif', 'photo/slm.gif')"
-                     class="clickable-media" 
-                     alt="2D動畫">
-                <div class="portfolio-info">
-                    <h3>近期專案：Spine 動畫</h3>
-                    <h4>工具：Spine 2D</h4>
-                    <p>作品說明:這個的話是這個學期製作的作品，主要是使用spine來製作2D動畫，然後再把它匯出成gif檔案，但是我覺得這個應該比較適用於2D的遊戲製作。</p>
-                    <span class="hint-text">(點擊切換另一個動畫)</span>
-                </div>
-            </div>
-            
-            <div class="portfolio-item">
-        <img id="p4" 
-             src="photo/moon.jpg" 
-             onclick="cycleMedia('p4', 'photo/psphoto.png', 'photo/moon.jpg')"
-             class="clickable-media" 
-             alt="新作品展示">
-        <div class="portfolio-info">
-            <h3>更多作品展示</h3>
-            <h4>工具：Photoshop、Illustrator </h4>
-            <p>作品說明：這些是我在平面設計方面的作品，使用了漸層工具和使用許多圖片做組合讓這些圖片比較好看。</p>
-            <span class="hint-text">(點擊切換圖片)</span>
-        </div>
-    </div>
-
-    <div class="portfolio-item">
-        <video id="p5" 
-               class="clickable-media" 
-               autoplay muted loop playsinline
-               onclick="cycleMedia('p5', 'photo/41132239.mp4', 'photo/smoke.mp4')">
-            <source src="photo/41132239.mp4" type="video/mp4">
-        </video>
-        
-        <div class="portfolio-info">
-            <h3>特效動畫展示</h3>
-            <h4>工具：After Effects</h4>
-            <p>作品說明:這是我使用After Effects製作的特效動畫，這兩個都是使用粒子效果做出來的，第一個是項是在一個詭異的街邊突然飄出一團霧令人毛骨悚然，第二的話是那時剛好聖誕節就直接做一個粒子聖誕樹。</p>
-            <span class="hint-text">(點擊切換影片)</span>
-        </div>
-    </div>
-
+    <!-- 作品劇照 -->
+    <section id="gallery">
+        <h2>Beauty Shots</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item">劇照 1: 阿藏廚師特寫 (請替換圖片)</div>
+            <div class="gallery-item">劇照 2: 義式廚房氛圍 (請替換圖片)</div>
+            <div class="gallery-item">劇照 3: 老火苗的犧牲 (請替換圖片)</div>
+            <div class="gallery-item">劇照 4: 小火苗的爆發 (請替換圖片)</div>
         </div>
     </section>
 
+    <!-- 幕後製作 -->
+    <section id="bts">
+        <h2>Behind the Scenes</h2>
+        <p style="text-align: center; margin-bottom: 30px;">本專題採用標準 3D 動畫製程，結合精緻的材質渲染與逐幀動作調整，打造迪士尼般的視覺饗宴。</p>
+        <div class="tech-tags">
+            <span class="tech-tag">Blender 3D</span>
+            <span class="tech-tag">MotionBuilder</span>
+            <span class="tech-tag">Marmoset Toolbag</span>
+            <span class="tech-tag">Adobe After Effects</span>
+        </div>
+    </section>
+
+    <!-- 頁尾 -->
     <footer>
-        <p>&copy; 2025 劉光展. All Rights Reserved.</p>
+        <p>© 2026 Ah Zang's Pizza Animation Project. 畢業專題製作</p>
     </footer>
 
-    <script>
-    // 這是一個「無限輪播」的函數
-    // 用法：cycleMedia('ID', '圖1', '圖2', '圖3', ...)
-    function cycleMedia(elementId, ...images) {
-        var element = document.getElementById(elementId);
-        
-        // 1. 找出現在顯示的是第幾張圖
-        var currentIndex = -1;
-        for (var i = 0; i < images.length; i++) {
-            // 檢查現在的 src 網址裡面有沒有包含清單裡的檔名
-            if (element.src.includes(images[i])) {
-                currentIndex = i;
-                break;
-            }
-        }
-
-        // 2. 算出下一張圖是誰 (如果最後一張了，就回到第 0 張)
-        var nextIndex = (currentIndex + 1) % images.length;
-        
-        // 3. 切換圖片
-        element.src = images[nextIndex];
-
-        // 4. (選用) 如果是影片，切換後要讓它自動播放
-        if (element.tagName === 'VIDEO') {
-            element.load();
-            element.play();
-        }
-    }
-</script>
-
 </body>
-
 </html>
