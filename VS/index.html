@@ -47,7 +47,7 @@
             color: var(--secondary-color);
         }
 
-        /* --- 更新後的主視覺區塊 (Hero Section) 樣式 --- */
+        /* --- 主視覺區塊 (Hero Section) 樣式 --- */
         header {
             position: relative;
             height: 100vh;
@@ -81,7 +81,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.4); /* 0.4 是透明度，可以自己調深淺 */
+            background: rgba(0, 0, 0, 0.4); /* 0.4 是透明度 */
             z-index: -1;
         }
 
@@ -152,19 +152,30 @@
         }
 
         .gallery-item {
+            position: relative; /* 👈 讓文字可以定位在最下方 */
             background-color: #ddd;
             height: 250px;
             border-radius: 15px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #777;
-            font-weight: bold;
             overflow: hidden;
             border: 3px solid white;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             background-size: cover;
             background-position: center;
+        }
+
+        /* 👈 專屬的劇照底部黑底白字列 */
+        .gallery-text {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.6); /* 半透明黑底 */
+            color: #ffffff !important; /* 純白字 */
+            text-align: center;
+            padding: 12px 0;
+            font-weight: bold;
+            font-size: 1rem;
+            letter-spacing: 1px;
         }
 
         /* --- 幕後製作與技術 --- */
@@ -196,7 +207,6 @@
 </head>
 <body>
 
-    <!-- 導覽列 -->
     <nav>
         <a href="#home">首頁</a>
         <a href="#story">關於故事</a>
@@ -205,18 +215,13 @@
         <a href="#bts">幕後製作</a>
     </nav>
 
-    <!-- 首頁主視覺 (含影片背景) -->
     <header id="home">
-        <!-- 這是背景影片區塊 -->
         <video autoplay loop muted playsinline class="bg-video">
-            <!-- 👇 請把下面引號內的檔名，改成您電腦裡的影片檔名 👇 -->
             <source src="32132321_uYpbAZne.mp4" type="video/mp4">
         </video>
         
-        <!-- 半透明遮罩 -->
         <div class="hero-overlay"></div>
 
-        <!-- 文字內容層 -->
         <div class="hero-content">
             <h1>阿藏披薩</h1>
             <p>一段在義式窯烤爐裡，關於愛、傳承與爆發的卡通風格動畫專題。</p>
@@ -224,7 +229,6 @@
         </div>
     </header>
 
-    <!-- 關於故事 -->
     <section id="story">
         <h2>About the Story</h2>
         <div class="story-content">
@@ -233,7 +237,6 @@
         </div>
     </section>
 
-    <!-- 導演介紹 -->
     <section id="director">
         <h2>Director's Statement</h2>
         <div class="story-content" style="border-left-color: var(--primary-color);">
@@ -242,19 +245,24 @@
         </div>
     </section>
 
-    <!-- 作品劇照 -->
     <section id="gallery">
         <h2>Beauty Shots</h2>
         <div class="gallery-grid">
-            <!-- 👇 未來您可以透過在 style="background-image: url('圖片網址');" 加入圖片 👇 -->
-            <div class="gallery-item" style="background-image: url('photo/1.png');">劇照 1: 阿藏廚師特寫</div>
-            <div class="gallery-item" style="background-image: url('photo/2.png');">劇照 2: 義式廚房氛圍</div>
-            <div class="gallery-item" style="background-image: url('photo/3.png');">劇照 3: 老火苗的犧牲</div>
-            <div class="gallery-item" style="background-image: url('photo/4.png');">劇照 4: 完美的披薩</div>
+            <div class="gallery-item" style="background-image: url('photo/1.png');">
+                <div class="gallery-text">劇照 1: 阿藏廚師特寫</div>
+            </div>
+            <div class="gallery-item" style="background-image: url('photo/2.png');">
+                <div class="gallery-text">劇照 2: 義式廚房氛圍</div>
+            </div>
+            <div class="gallery-item" style="background-image: url('photo/3.png');">
+                <div class="gallery-text">劇照 3: 老火苗的犧牲</div>
+            </div>
+            <div class="gallery-item" style="background-image: url('photo/4.png');">
+                <div class="gallery-text">劇照 4: 完美的披薩</div>
+            </div>
         </div>
     </section>
 
-    <!-- 幕後製作 -->
     <section id="bts">
         <h2>Behind the Scenes</h2>
         <p style="text-align: center; margin-bottom: 30px;">本專題結合了精緻的材質渲染與逐幀動作調整，打造出溫馨的視覺饗宴。</p>
@@ -265,7 +273,6 @@
         </div>
     </section>
 
-    <!-- 頁尾 -->
     <footer>
         <p>© 2026 阿藏披薩 Animation Project. 畢業專題製作</p>
     </footer>
